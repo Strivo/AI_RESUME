@@ -6,7 +6,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import SignInPage from './auth/sign-in/index.jsx'
 import Home from './home/index.jsx'
 import Dashboard from './dashboard/index.jsx'
-import { ClerkProvider } from '@clerk/clerk-react'
+import { ClerkProvider, SignedIn, SignedOut } from '@clerk/clerk-react'
 import EditResume from './dashboard/resume/[resumeId]/edit/index.jsx'
 import ViewResume from './my-resume/[resumeId]/view/index.jsx'
 
@@ -21,11 +21,29 @@ const router=createBrowserRouter([
     children:[
       {
         path:'/dashboard',
-        element:<Dashboard/>
+        element:(
+          <>
+            <SignedIn>
+              <Dashboard/>
+            </SignedIn>
+            <SignedOut>
+              <SignInPage />
+            </SignedOut>
+          </>
+        )
       },
       {
         path:'/dashboard/resume/:resumeId/edit',
-        element:<EditResume/>
+        element:(
+          <>
+            <SignedIn>
+              <EditResume/>
+            </SignedIn>
+            <SignedOut>
+              <SignInPage />
+            </SignedOut>
+          </>
+        )
       },
     ]
   },
